@@ -4,25 +4,23 @@ Une plateforme complète en Python pour des applications d'IA multimodale basée
 
 ## 📋 À propos
 
-**Multimodal-LLM** est une application sophistiquée qui combine les capacités des Grands Modèles de Langage (LLMs) et des Modèles Vision-Langage (VLMs) pour effectuer des tâches avancées de traitement du langage naturel et de vision par ordinateur. Cette plateforme offre une interface intuitive pour traiter du texte, des images et des documents via une API unifiée.
+**Multimodal-LLM** est une application  qui combine les capacités des Grands Modèles de Langage (LLMs) et des Modèles Vision-Langage (VLMs) pour effectuer des tâches avancées de traitement du langage naturel et de vision par ordinateur. Cette plateforme offre une interface intuitive pour traiter du texte, des images et des documents via une API unifiée.
 
 ### ✨ Fonctionnalités principales
 
 - 🖼️ **Conversion Image vers Texte** : Générez des descriptions textuelles à partir d'images avec BLIP
 - 🔍 **Reconnaissance d'Entités Nommées** : Extrayez et classifiez les entités du texte
 - 📝 **Résumé de Texte** : Résumez automatiquement du contenu long et extrayez les points clés
-- 🧠 **RAG (Génération Augmentée par Récupération)** : Interrogez des documents PDF avec recherche sémantique via FAISS
+- 🧠 **RAG** : Interrogez des documents PDF avec recherche sémantique via FAISS
 - 🎯 **Analyse d'Images Avancée** : Combinez la génération de légendes avec la résumé pour une analyse approfondie
-- 🤖 **Intégration LLM** : Propulsé par Mistral 7B pour un traitement texte intelligent
 
 ## 🛠️ Stack Technologique
 
-- **Langage** : Python 3.x
 - **Interface** : Streamlit
 - **Framework LLM** : Hugging Face Inference API
 - **Modèles Vision** : Salesforce BLIP (génération de légendes)
-- **Base de Données Vectorielle** : FAISS (recherche sémantique)
-- **Embeddings** : Sentence Transformers (all-MiniLM-L6-v2)
+- **Base de Données Vectorielle** : FAISS 
+- **Embeddings** : Sentence Transformers
 - **Traitement Documentaire** : PyPDF2
 
 ## 📦 Installation
@@ -60,15 +58,6 @@ Une plateforme complète en Python pour des applications d'IA multimodale basée
      export HF_TOKEN="votre_token_hugging_face_ici"
      ```
 
-## 🚀 Démarrage rapide
-
-### Lancez l'application Streamlit
-
-```bash
-streamlit run multimodal/app.py
-```
-
-L'application se lancera dans votre navigateur à `http://localhost:8501`
 
 ### Fonctionnalités disponibles dans l'interface
 
@@ -91,138 +80,15 @@ Multimodal-LLM/
 │   │   ├── client.py          # Wrapper du client Hugging Face
 │   │   └── load_pdf.py        # Chargement PDF et recherche sémantique
 │   └── data/
-│       ├── demo.jpg           # Image d'exemple
-│       └── article_2502.15214v1.pdf  # PDF d'exemple pour RAG
+│       ├── demo.jpg           # Image 
+│       └── article_2502.15214v1.pdf  # PDF pour RAG
 └── requirements.txt           # Dépendances Python
 ```
 
-## 🔧 Référence API
-
-### Classe ApiCalls
-
-L'interface centrale pour toutes les opérations IA :
-
-```python
-from multimodal.src.api_call import ApiCalls
-
-api = ApiCalls()
-
-# Reconnaissance d'entités nommées
-entities = api.entity_recognition("Mon nom est Sarah Jessica Parker")
-
-# Image vers texte
-caption = api.img2text("chemin/vers/image.jpg")
-
-# Analyse d'image avancée
-analysis = api.advanced_img2text("url_ou_chemin_image")
-
-# Résumé de texte
-summary = api.summarize_and_key_points("texte long ici...")
-
-# Requête RAG
-answer = api.RAG_query("Qu'est-ce que la planification à long terme ?")
-```
-
-### Modèles utilisés
-
-| Tâche | Modèle | Fournisseur |
-|-------|--------|-------------|
-| Génération de Légendes | Salesforce/BLIP | Hugging Face |
-| Reconnaissance d'Entités | dslim/bert-base-multilingual-cased-ner | Hugging Face |
-| Génération Texte | Mistral-7B-Instruct | Hugging Face |
-| Embeddings | sentence-transformers/all-MiniLM-L6-v2 | Local |
-
-## 🔍 Fonctionnalités Avancées
-
-### Génération Augmentée par Récupération (RAG)
-
-Le système RAG utilise une combinaison de :
-- **Extraction PDF** : Analyse les documents PDF avec PyPDF2
-- **Segmentation** : Divise le texte en segments de 1500 caractères
-- **Embeddings** : Convertit les segments en représentations vectorielles
-- **Indexation FAISS** : Permet une recherche par similarité sémantique
-- **Injection de Contexte** : Enrichit les invites LLM avec les extraits pertinents
-
-### Inférence BLIP Locale
-
-Pour la génération de légendes hors ligne sans appels API :
-
-```python
-from multimodal.src.local_blip import LocalInference
-
-model = LocalInference()
-model.infer("chemin/vers/image.jpg")
-```
-
-## 📊 Cas d'usage
-
-- 📰 **Analyse de Contenu** : Résumez des articles d'actualité et extrayez les informations clés
-- 🖼️ **Documentation d'Images** : Générez des descriptions pour des archives d'images
-- 📚 **Assistant de Recherche** : Interrogez des articles scientifiques et documentation technique
-- 🏢 **Intelligence Métier** : Extrayez des entités et des insights de documents
-- ♿ **Accessibilité** : Générez automatiquement du texte alternatif pour les images
-
-## ⚙️ Configuration
-
-### Variables d'environnement
-
-- `HF_TOKEN` (requis) : Votre token API Hugging Face
-
-### Personnalisation
-
-Modifiez les noms de modèles dans `multimodal/src/api_call.py` :
-
-```python
-self.ner = "dslim/bert-base-multilingual-cased-ner"  # Modèle NER
-self.blip = "Salesforce/blip-image-captioning-base"  # Génération légendes
-self.mistral = "mistral-7b-instruct-v0.1"            # LLM
-```
-
-## 🐛 Dépannage
-
-| Problème | Solution |
-|----------|----------|
-| `HF_TOKEN non trouvé` | Assurez-vous que le token est défini dans `.streamlit/secrets.toml` ou en variable d'environnement |
-| `FileNotFoundError` | Vérifiez le chemin du PDF dans `multimodal/utils/load_pdf.py` |
-| `Erreurs de connexion` | Vérifiez votre connexion Internet et le statut de l'API Hugging Face |
-| `CUDA mémoire saturée` | Utilisez des modèles plus petits ou réduisez les tailles de batch |
-
-## 📈 Conseils de Performance
-
-- **Traitement d'Images** : Les images sont optimisées à la volée ; les tailles < 5MB sont recommandées
-- **Recherche PDF** : L'indexation FAISS s'adapte aux documents de milliers de pages
-- **Traitement par Batch** : Traitez plusieurs éléments séquentiellement pour éviter les problèmes mémoire
-
-## 🤝 Contribuer
-
-Les contributions sont bienvenues ! Veuillez :
-
-1. Forkez le dépôt
-2. Créez une branche de fonctionnalité (`git checkout -b feature/fonctionnalite-incroyable`)
-3. Committez vos changements (`git commit -m 'Ajout de fonctionnalité incroyable'`)
-4. Pushez vers la branche (`git push origin feature/fonctionnalite-incroyable`)
-5. Ouvrez une Pull Request
-
-## 📄 Licence
-
-Ce projet est open source. Veuillez consulter le fichier LICENSE pour plus de détails.
 
 ## 👨‍💻 Auteur
 
-**Bilelly** - [Profil GitHub](https://github.com/Bilelly)
-
-## 📞 Support et Feedback
-
-- 💬 Ouvrez une issue pour les rapports de bugs ou les demandes de fonctionnalités
-- 📧 Contactez-moi via GitHub
-- 🌟 Si ce projet vous a été utile, n'hésitez pas à lui donner une ⭐ !
-
-## 🔗 Ressources
-
-- [Documentation Hugging Face](https://huggingface.co/docs)
-- [Documentation Streamlit](https://docs.streamlit.io/)
-- [Documentation FAISS](https://github.com/facebookresearch/faiss)
-- [Sentence Transformers](https://www.sbert.net/)
+**Bilal SAYOUD** - [Profil GitHub](https://github.com/Bilelly)
 
 ---
 
