@@ -89,9 +89,3 @@ Multimodal-LLM/
 ## 👨‍💻 Auteur
 
 **Bilal SAYOUD** - [Profil GitHub](https://github.com/Bilelly)
-
----
-
-**Dernière mise à jour** : 6 février 2026  
-**Version Python** : 3.8+  
-**Statut** : Développement Actif ✅
